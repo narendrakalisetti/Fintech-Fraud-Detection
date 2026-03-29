@@ -1,0 +1,47 @@
+{
+  "version": "1.2.0",
+  "last_updated": "2026-03-29",
+  "updated_by": "Compliance Team",
+  "regulatory_basis": "MLR 2017 Reg.21 - Risk Assessment",
+  "thresholds": {
+    "high_value_gbp": 5000.0,
+    "sar_eligible_score": 0.75,
+    "edd_required_score": 0.50,
+    "medium_risk_score":  0.25
+  },
+  "score_weights": {
+    "amount_risk":        0.30,
+    "country_risk":       0.25,
+    "channel_risk":       0.20,
+    "mcc_risk":           0.15,
+    "international_risk": 0.10
+  },
+  "channel_risk_scores": {
+    "SWIFT": 0.9,
+    "CHAPS": 0.6,
+    "BACS":  0.4,
+    "FPS":   0.3,
+    "CARD":  0.2
+  },
+  "high_risk_countries": {
+    "source": "FATF Grey and Black List (updated quarterly)",
+    "last_fatf_review": "2026-02-01",
+    "codes": ["IRN","PRK","MMR","SYR","YEM","LBY","MLI","SOM","SDN","AFG","HRV","PHL","VNM","PAK","JAM","CMR"]
+  },
+  "high_risk_mccs": {
+    "source": "JMLSG Guidance Part II Section 14",
+    "codes": {
+      "6010": "Manual cash disbursements",
+      "6011": "ATM cash withdrawals",
+      "6012": "Financial institution merchandise",
+      "7995": "Gambling and betting",
+      "5912": "Drug stores / pharmacies",
+      "9406": "Government services"
+    }
+  },
+  "amount_normalisation": {
+    "floor_gbp": 5000.0,
+    "ceiling_gbp": 100000.0,
+    "description": "Score normalised linearly between floor (0.0) and ceiling (1.0)"
+  }
+}

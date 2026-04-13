@@ -1,0 +1,30 @@
+{
+  "high_value_threshold_gbp": 5000.0,
+  "sar_score_threshold": 0.6,
+  "edd_score_threshold": 0.4,
+  "weights": {
+    "high_value_weight": 0.35,
+    "international_weight": 0.20,
+    "high_risk_category_weight": 0.20,
+    "velocity_weight": 0.15,
+    "geo_mismatch_weight": 0.10
+  },
+  "high_risk_merchant_categories": [
+    "CRYPTO", "GAMBLING", "MONEY_TRANSFER", "WIRE_TRANSFER",
+    "PREPAID_CARDS", "FOREIGN_EXCHANGE", "JEWELLERY"
+  ],
+  "high_risk_countries": [
+    "KP", "IR", "MM", "BY", "RU", "SY", "CU", "VE", "YE", "LY", "SO", "SD"
+  ],
+  "watermark_minutes": 10,
+  "consumer_group": "fraud-detection-streaming-job",
+  "mlr_2017": {
+    "regulation_27_threshold_gbp": 5000.0,
+    "regulation_35_sar_auto_route": true,
+    "nca_submission_sla_minutes": 60,
+    "detection_sla_seconds": 30
+  },
+  "version": "1.2.0",
+  "last_updated": "2025-01-15",
+  "updated_by": "Narendra Kalisetti"
+}

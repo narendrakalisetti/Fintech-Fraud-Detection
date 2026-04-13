@@ -1,0 +1,119 @@
+{
+  "name": "pl_ingest_ofgem_bronze",
+  "properties": {
+    "description": "Copy Ofgem CSV reports from SFTP/HTTP source into ADLS Gen2 bronze container, partitioned by ingest date.",
+    "activities": [
+      {
+        "name": "CopyOfgemCSV",
+        "type": "Copy",
+        "dependsOn": [],
+        "policy": {
+          "timeout": "01:00:00",
+          "retry": 3,
+          "retryIntervalInSeconds": 60
+        },
+        "typeProperties": {
+          "source": {
+            "type": "DelimitedTextSource",
+            "storeSettings": {
+              "type": "HttpReadSettings",
+              "requestMethod": "GET"
+            }
+          },
+          "sink": {
+            "type": "ParquetSink",
+            "storeSettings": {
+              "type": "AzureBlobFSWriteSettings"
+            }
+          },
+          "enableStaging": false,
+          "translator": {
+            "type": "TabularTranslator",
+            "typeConversion": true
+          }
+        },
+        "inputs": [
+          {
+            "referenceName": "ds_ofgem_http_source",
+            "type": "DatasetReference"
+          }
+        ],
+        "outputs": [
+          {
+            "referenceName": "ds_adls_bronze_ofgem",
+            "type": "DatasetReference",
+            "parameters": {
+              "ingest_date": {
+                "value": "@formatDateTime(utcNow(), 'yyyy-MM-dd')",
+                "type": "Expression"
+              }
+            }
+          }
+        ]
+      },
+      {
+        "name": "TriggerSilverTransform",
+        "type": "DatabricksNotebook",
+        "dependsOn": [
+          {
+            "activity": "CopyOfgemCSV",
+            "dependencyConditions": ["Succeeded"]
+          }
+        ],
+        "policy": {
+          "timeout": "02:00:00",
+          "retry": 2,
+          "retryIntervalInSeconds": 120
+        },
+        "typeProperties": {
+          "notebookPath": "/Shared/EnergyZero/01_bronze_to_silver",
+          "baseParameters": {
+            "pipeline_run_id": {
+              "value": "@pipeline().RunId",
+              "type": "Expression"
+            }
+          }
+        },
+        "linkedServiceName": {
+          "referenceName": "ls_databricks_energyzero",
+          "type": "LinkedServiceReference"
+        }
+      },
+      {
+        "name": "TriggerGoldAggregation",
+        "type": "DatabricksNotebook",
+        "dependsOn": [
+          {
+            "activity": "TriggerSilverTransform",
+            "dependencyConditions": ["Succeeded"]
+          }
+        ],
+        "policy": {
+          "timeout": "01:00:00",
+          "retry": 2,
+          "retryIntervalInSeconds": 60
+        },
+        "typeProperties": {
+          "notebookPath": "/Shared/EnergyZero/02_silver_to_gold",
+          "baseParameters": {
+            "pipeline_run_id": {
+              "value": "@pipeline().RunId",
+              "type": "Expression"
+            }
+          }
+        },
+        "linkedServiceName": {
+          "referenceName": "ls_databricks_energyzero",
+          "type": "LinkedServiceReference"
+        }
+      }
+    ],
+    "parameters": {
+      "ingest_date": {
+        "type": "string",
+        "defaultValue": "@formatDateTime(utcNow(), 'yyyy-MM-dd')"
+      }
+    },
+    "annotations": ["EnergyZero", "Ofgem", "Bronze"]
+  }
+}

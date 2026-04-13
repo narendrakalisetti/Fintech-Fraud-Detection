@@ -1,5 +1,0 @@
-{"Event_Timestamp":"2024-06-01T10:00:00Z","Transaction_Amount_GBP":7500.0,"Payment_Channel":"SWIFT"}
-{"Transaction_ID":"TXN-MALFORMED-002","Transaction_Amount_GBP":12000.0,"Payment_Channel":"CHAPS"}
-{"Transaction_ID":"TXN-MALFORMED-003","Event_Timestamp":"2024-06-01T10:02:00Z","Payment_Channel":"CARD"}
-{"INVALID_FIELD":"corrupt_data","garbage":true}
-{"Transaction_ID":"TXN-MALFORMED-005","Event_Timestamp":"not-a-timestamp","Transaction_Amount_GBP":"not-a-number"}

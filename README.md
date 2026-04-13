@@ -1,6 +1,6 @@
 # Fintech Fraud Detection – Real-Time Streaming Platform
 
-![CI](https://github.com/narendrakalisetti/Fintech-Fraud-Detection/actions/workflows/ci.yml/badge.svg)
+![CI](Fintech-Fraud-Detection/docs/img/cicd_pipeline.png)
 ![Security](https://github.com/narendrakalisetti/Fintech-Fraud-Detection/actions/workflows/security.yml/badge.svg)
 ![Python](https://img.shields.io/badge/Python-3.11-blue)
 ![PySpark](https://img.shields.io/badge/PySpark-3.5-orange)
